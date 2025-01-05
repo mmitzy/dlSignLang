@@ -50,5 +50,5 @@ if __name__ == "__main__":
     print(f"True labels: {true_labels[:28]}")  # Check first 10 true labels
 
     # Evaluate the baseline model
-    accuracy = baseline_model.evaluate(true_labels)
-    print(f"Baseline accuracy with label '{baseline_model.uniform_label}': {accuracy:.2f}")
+    accuracy = baseline_model.evaluate(true_labels) * 100
+    print(f"Baseline accuracy with label '{baseline_model.uniform_label}': {accuracy:.2f}%")
