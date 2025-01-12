@@ -4,6 +4,9 @@ import torch.optim as optim
 from torch.utils.data import DataLoader
 from torchvision import datasets, transforms
 import os
+import matplotlib.pyplot as plt
+from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
+
 
 class SimpleNeuralNetwork(nn.Module):
     def __init__(self, input_dim, hidden_dim, num_classes, learning_rate=0.001):
@@ -70,6 +73,8 @@ class SimpleNeuralNetwork(nn.Module):
         self.eval()  # Set model to evaluation mode
         correct = 0
         total = 0
+        all_labels = []
+        all_predicitions = []
         
         with torch.no_grad():  # Disable gradient computation
             for images, labels in test_loader:
@@ -78,9 +83,18 @@ class SimpleNeuralNetwork(nn.Module):
                 _, predicted = torch.max(outputs, 1)
                 total += labels.size(0)
                 correct += (predicted == labels).sum().item()
+
+                all_labels.extend(labels.cpu().numpy())
+                all_predicitions.extend(predicted.cpu().numpy())
         
         accuracy = 100 * correct / total
         print(f'Accuracy of the model on the test set: {accuracy:.2f}%')
+
+        cm = confusion_matrix(all_labels, all_predicitions)
+        disp = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=range(len(cm)))
+        disp.plot(cmap=plt.cm.Blues)
+        plt.title("Confusion Matrix(Results)")
+        plt.show()
 
 # -------------------------------
 # Example Usage
