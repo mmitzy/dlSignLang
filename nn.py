@@ -4,9 +4,7 @@ import torch.optim as optim
 from torch.utils.data import DataLoader
 from torchvision import datasets, transforms
 import os
-import matplotlib.pyplot as plt
-from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
-import Evaluate as EV
+from Evaluate import Evaluate 
 
 
 class SimpleNeuralNetwork(nn.Module):
@@ -102,7 +100,6 @@ class SimpleNeuralNetwork(nn.Module):
     #     plt.show()
     #     print("Confusion matrix saved as 'confusion_matrix.png'.")
 
-
 # -------------------------------
 # Example Usage
 
@@ -153,4 +150,5 @@ else:
 
 # Evaluate the model
 print("Evaluating the model...")
-model.EV.evaluate_model(test_loader, device)
+evaluator = Evaluate()  # Create an instance of the Evaluate class
+evaluator.evaluate_model(model, test_loader, device)  # Pass the model, test_loader, and device
