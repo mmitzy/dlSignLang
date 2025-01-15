@@ -4,10 +4,7 @@ import torch.optim as optim
 from torch.utils.data import DataLoader
 from torchvision import datasets, transforms
 import os
-import matplotlib.pyplot as plt
-from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
-from Evaluate import Evaluate 
-
+from Evaluate import Evaluate
 
 class LogisticRegressionModel(nn.Module):
     def __init__(self, input_dim, num_classes, learning_rate=0.001):
@@ -63,7 +60,6 @@ class LogisticRegressionModel(nn.Module):
             print(f"Model loaded from {file_path}")
         else:
             print(f"Model file not found at {file_path}, initializing a new model.")
-
 
 # -------------------------------
 # Example Usage
