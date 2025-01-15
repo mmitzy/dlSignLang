@@ -4,6 +4,7 @@ import torch.optim as optim
 from torch.utils.data import DataLoader
 from torchvision import datasets, transforms
 import os
+from Evaluate import Evaluate
 
 # CNN Model
 class CNNModel(nn.Module):
@@ -52,26 +53,7 @@ class CNNModel(nn.Module):
         self.to(device)  # Move the model to the specified device
         print(f"Model loaded from {file_path}")
 
-    def evaluate_model(self, test_loader, device):
-        self.eval()  # Set the model to evaluation mode
-        correct = 0
-        total = 0
-        
-        with torch.no_grad():  # Disable gradient calculation
-            for images, labels in test_loader:
-                images, labels = images.to(device), labels.to(device)
-                
-                # Forward pass
-                outputs = self(images)
-                _, predicted = torch.max(outputs, 1)  # Get the predicted class
-                
-                total += labels.size(0)
-                correct += (predicted == labels).sum().item()
-        
-        accuracy = 100 * correct / total
-        print(f"Accuracy of the model on the test set: {accuracy:.2f}%")
-        return accuracy
-
+  
 # -------------------------------
 # Example Usage
 
@@ -154,4 +136,5 @@ model.load_model(model_save_path, device)
 
 # Evaluate the model
 print("Evaluating the model...")
-model.evaluate_model(test_loader, device)
+evaluator = Evaluate()  # Create an instance of the Evaluate class
+accuracy = evaluator.evaluate_model(model, test_loader, device)  # Pass the model, test_loader, and device
